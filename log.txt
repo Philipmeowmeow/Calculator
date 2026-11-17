@@ -1,0 +1,2 @@
+在QMainWindow，setLayout 失败
+原因：QMainWindow 有 centerWidget
