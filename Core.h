@@ -5,7 +5,6 @@
 #include <QTimer>
 #include <QRegularExpression>
 #include <QStack>
-#include <QChar>
 class Core: public QObject
 {
     Q_OBJECT

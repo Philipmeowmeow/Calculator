@@ -61,12 +61,19 @@ void Core::applyTop()
 void Core::calculate()
 {
    
-  if (ch == QChar('=')) {
+    if(numStack.isEmpty()&&ch == "-"){
+        oprStack.push(ch);numStack.push(0.f);   
+        return;  
+    }
+        
+    
+    if (ch == QChar('=')) {
         while (!oprStack.isEmpty() && oprStack.top() != QStringLiteral("("))
             applyTop();
         oprStack.clear();               
         return;                          
     }
+
     if (ch == QChar(')')) {
         while (!oprStack.isEmpty() && oprStack.top() != QStringLiteral("("))
             applyTop();
@@ -74,15 +81,17 @@ void Core::calculate()
             oprStack.pop();              
         return;                           
     }
+
     if (ch == QChar('(')) {
         oprStack.push(QStringLiteral("("));
         return;
     }
+
     while (!oprStack.isEmpty()
            && oprStack.top() != QStringLiteral("(")
            && checkPriority(ch) < checkPriority(oprStack.top()))
         applyTop();
 
-    if(numStack.size() <oprStack.size())
+    if(numStack.size() < oprStack.size())
         oprStack.push(ch);
 }
