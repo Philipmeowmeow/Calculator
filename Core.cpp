@@ -82,6 +82,6 @@ void Core::calculate()
            && oprStack.top() != QStringLiteral("(")
            && checkPriority(ch) < checkPriority(oprStack.top()))
         applyTop();
- if(numStack.size() <oprStack.size())
+
     oprStack.push(ch);
 }
