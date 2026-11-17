@@ -23,9 +23,6 @@ private:
     void applyTop();
     void calculate();
     QString numBuffer;
-    double rs;
-    bool permit;
-    QTimer timer;
 signals:
     void sentResult(QString _result);
 };
