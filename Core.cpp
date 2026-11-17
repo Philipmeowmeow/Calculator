@@ -39,11 +39,15 @@ void Core::getInput(QString _in)
            
         qDebug()<<numStack<<oprStack;
         return;
-    }  
+    }    
     matchOpr = reOpr.match(_in);
     if(matchOpr.hasMatch()){
         ch =  matchOpr.captured().at(0); 
-        numStack.push(numBuffer.toDouble());
+        if(!numBuffer.isEmpty())
+        {
+            numStack.push(numBuffer.toDouble());
+            numBuffer.clear();
+        }
         calculate();
         numBuffer.clear();
         qDebug()<<numStack<<oprStack;
@@ -71,10 +75,12 @@ int Core::checkPriority(QString _opr)
 
 void Core::applyTop()
 {
+    if(oprStack.isEmpty()) return;
+        const QString oprTop = oprStack.pop();
+    if(numStack.size() < 2) return;
     if(numStack.size() > 1){
         const double num1 = numStack.pop();
         const double num2 = numStack.pop();
-        const QString oprTop = oprStack.pop();
         if(oprTop == "+")
             numStack.push(num1+num2);
         if(oprTop == "-")
@@ -114,7 +120,7 @@ void Core::calculate()
 
     while (!oprStack.isEmpty()
            && oprStack.top() != QStringLiteral("(")
-           && checkPriority(ch) < checkPriority(oprStack.top()))
+           && checkPriority(ch) <= checkPriority(oprStack.top()))
         applyTop();
 
     if(numStack.size() > oprStack.size())

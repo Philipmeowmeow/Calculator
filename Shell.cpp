@@ -4,8 +4,8 @@ Shell::Shell(QWidget *parent)
     : QWidget{parent}
 {   
 
-    m_box = new QVBoxLayout(this);
-    m_grid = new QGridLayout(this);
+    m_box    = new QVBoxLayout(this);
+    m_grid   = new QGridLayout;          // ← 不带 this
     m_btnGrp = new QButtonGroup(this);
     setLayout(m_box);
     
@@ -81,7 +81,7 @@ void Shell::Build()
         if(digit==11)
             m_lE->clear();
          if(digit==10)
-            m_lE->setText(m_lE->text().chopped(1));    
+            m_lE->setText(m_lE->text().isEmpty()?nullptr :m_lE->text().chopped(1));    
     });
 }
 
