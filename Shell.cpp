@@ -75,11 +75,13 @@ void Shell::Build()
         }
         if(digit==17)
         {
-            
             m_lE->clear();
            m_lE->setText(QString::number(m_core->getResult()));
         }
-            
+        if(digit==11)
+            m_lE->clear();
+         if(digit==10)
+            m_lE->setText(m_lE->text().chopped(1));    
     });
 }
 

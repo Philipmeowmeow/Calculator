@@ -10,10 +10,39 @@ Core::Core(QObject *parent)
 
 void Core::getInput(QString _in)
 {
+   
+    if(_in == QStringLiteral("清除"))
+    {
+        numStack.clear();
+        oprStack.clear();
+        numBuffer.clear();
+        qDebug()<<numStack<<oprStack;
+        return;
+    }  
+    if(_in == QStringLiteral("删除"))
+    {
+            if(!numBuffer.isEmpty())
+            {
+                numBuffer.chop(1);
+                return;
+            }
+            if(numStack.size() > oprStack.size()){
+               numBuffer = QString::number(numStack.top());
+               numBuffer.chop(1);
+               if(numBuffer.isEmpty())
+                numStack.pop();
+            }
+            else{
+               
+                oprStack.pop();
+            }
+           
+        qDebug()<<numStack<<oprStack;
+        return;
+    }  
     matchOpr = reOpr.match(_in);
     if(matchOpr.hasMatch()){
         ch =  matchOpr.captured().at(0); 
-        if(!numBuffer.isEmpty())
         numStack.push(numBuffer.toDouble());
         calculate();
         numBuffer.clear();
@@ -61,12 +90,8 @@ void Core::applyTop()
 void Core::calculate()
 {
    
-    if(numStack.isEmpty()&&ch == "-"){
-        oprStack.push(ch);numStack.push(0.f);   
-        return;  
-    }
+   
         
-    
     if (ch == QChar('=')) {
         while (!oprStack.isEmpty() && oprStack.top() != QStringLiteral("("))
             applyTop();
@@ -92,6 +117,6 @@ void Core::calculate()
            && checkPriority(ch) < checkPriority(oprStack.top()))
         applyTop();
 
-    if(numStack.size() < oprStack.size())
+    if(numStack.size() > oprStack.size())
         oprStack.push(ch);
 }
