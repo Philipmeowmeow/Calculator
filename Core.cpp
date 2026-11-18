@@ -27,14 +27,12 @@ void Core::getInput(QString _in)
                 return;
             }
             if(numStack.size() > oprStack.size()){
-                
                 numBuffer = QString::number(numStack.top());
                 numBuffer.chop(1);
                 if(numBuffer.isEmpty())
                     numStack.pop();
             }
             else{
-               
                 oprStack.pop();
             }
            
@@ -43,18 +41,24 @@ void Core::getInput(QString _in)
     }    
     matchOpr = reOpr.match(_in);
     if(matchOpr.hasMatch()){
-        ch =  matchOpr.captured().at(0); 
         if(!numBuffer.isEmpty())
         {
             numStack.push(numBuffer.toDouble());
             numBuffer.clear();
         }
+         if(!numStack.isEmpty()&&ch == QChar('-'))
+        {
+            numStack.push(-numStack.pop());
+            qDebug()<<numStack.top();
+        }
+        ch =  matchOpr.captured().at(0);
         calculate();
         numBuffer.clear();
         qDebug()<<numStack<<oprStack;
     }
     else{
         numBuffer += _in;
+       
     }
 }
 
@@ -96,9 +100,8 @@ void Core::applyTop()
 
 void Core::calculate()
 {
+  
    
-   
-        
     if (ch == QChar('=')) {
         while (!oprStack.isEmpty() && oprStack.top() != QStringLiteral("("))
             applyTop();
