@@ -27,10 +27,11 @@ void Core::getInput(QString _in)
                 return;
             }
             if(numStack.size() > oprStack.size()){
-               numBuffer = QString::number(numStack.top());
-               numBuffer.chop(1);
-               if(numBuffer.isEmpty())
-                numStack.pop();
+                
+                numBuffer = QString::number(numStack.top());
+                numBuffer.chop(1);
+                if(numBuffer.isEmpty())
+                    numStack.pop();
             }
             else{
                
