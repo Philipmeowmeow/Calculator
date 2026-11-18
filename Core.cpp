@@ -127,6 +127,6 @@ void Core::calculate()
            && checkPriority(ch) <= checkPriority(oprStack.top()))
         applyTop();
 
-    if(numStack.size() > oprStack.size())
+    if(numStack.size() >= oprStack.size())
         oprStack.push(ch);
 }
